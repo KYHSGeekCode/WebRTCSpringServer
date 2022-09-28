@@ -57,7 +57,7 @@ class WebsocketChatt {
 
     @OnOpen
     fun onOpen(session: Session) {
-        print("OnOpen $session")
+        print("OnOpen ${session.id}")
     }
 
     @OnClose
