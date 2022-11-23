@@ -82,7 +82,7 @@ class WebsocketChatt {
                     println("Not found diff from $from")
                     return
                 }
-                println("Sending to ${targetClient.name}")
+                println("Sending to ${targetClient.name} from $from")
                 targetClient.session.basicRemote.sendText(msg)
             }
             EMIT_JOIN -> {
@@ -104,9 +104,12 @@ class WebsocketChatt {
                     // send matched
                     val teacher = teachers.first()
                     val student = clients.find { it is Student } as Student
+                    val traceId = UUID.randomUUID().toString()
+                    println("Sending matched to ${teacher.name} with id $traceId")
                     teacher.session.basicRemote.sendText(
                         Json.encodeToString(
                             WebsocketPacket(
+                                traceId = traceId,
                                 from = "server",
                                 event = ON_MATCHED,
                                 content = Json.encodeToJsonElement(
@@ -123,9 +126,11 @@ class WebsocketChatt {
                             )
                         )
                     )
+                    println("Sending matched to ${student.name} with id $traceId")
                     student.session.basicRemote.sendText(
                         Json.encodeToString(
                             WebsocketPacket(
+                                traceId = traceId,
                                 from = "server",
                                 event = ON_MATCHED,
                                 content = Json.encodeToJsonElement(

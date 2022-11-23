@@ -6,6 +6,7 @@ import kotlinx.serialization.json.JsonElement
 
 @Serializable
 data class WebsocketPacket(
+    val traceId: String,
     val from: String,
     val event: String,
     val content: JsonElement
